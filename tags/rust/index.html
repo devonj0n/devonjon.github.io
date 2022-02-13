@@ -26,7 +26,9 @@
 <style>#theme-toggle,.top-link{display:none}</style>
 <style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
 </noscript>
-<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-123-45','auto'),ga('send','pageview'))</script><meta property="og:title" content="rust">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MC18541MZL"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-MC18541MZL',{anonymize_ip:!1})}</script>
+<meta property="og:title" content="rust">
 <meta property="og:description" content="Thoughts and experiments, learning and teaching, hopefully giving back in some small way.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://devonjon.co/tags/rust/"><meta property="og:image" content="https://devonjon.co/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta property="og:site_name" content="Devon-Jon etc.">
@@ -35,6 +37,8 @@
 <meta name=twitter:title content="rust">
 <meta name=twitter:description content="Thoughts and experiments, learning and teaching, hopefully giving back in some small way.">
 </head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MC18541MZL"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-MC18541MZL')</script>
 <body class=list id=top>
 <script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
 <header class=header>
@@ -76,9 +80,13 @@
 </h2>
 </header>
 <section class=entry-content>
-<p></p>
+<p>String slices are primitives in rust. However, Strings are put on the heap. At what point do we start benefiting from serializing string slices instead of strings?
+It makes the code more ugle and there’s more to manage (life times)
+but if you have a huge Payload, is the trade off worth it?
+probably not
+#[derive(Serialize, Deserialize, Debug)] struct Information&lt;'a> { #[serde(borrow)] results: Res&lt;'a>, status: &'a str, } #[derive(Serialize, Deserialize, Debug)] struct Res&lt;'a> { sunrise: &'a str, sunset: &'a str, solar_noon: &'a str, day_length: &'a str, civil_twilight_begin: &'a str, civil_twilight_end: &'a str, nautical_twilight_begin: &'a str, nautical_twilight_end: &'a str, astronomical_twilight_begin: &'a str, astronomical_twilight_end: &'a str, } #[derive(Serialize, Deserialize, Debug)] struct Information2 { results: Res2, status: String, } fn main() { let info = Information { results: Res { sunrise: "7:07:42 AM", sunset: "5:56:02 PM", solar_noon: "12:31:52 PM", day_length: "10:48:20", civil_twilight_begin: "6:42:28 AM", civil_twilight_end: "6:21:16 PM", nautical_twilight_begin: "6:12:02 AM", nautical_twilight_end: "6:51:42 PM", astronomical_twilight_begin: "5:41:55 AM", astronomical_twilight_end: "7:21:49 PM", }, status: "OK", }; let now = SystemTime::now(); for _ in 1....</p>
 </section>
-<footer class=entry-footer><span title="2020-09-15 11:30:03 +0000 +0000">September 15, 2020</span>&nbsp;·&nbsp;0 min&nbsp;·&nbsp;Devon-Jon MacKenzie</footer>
+<footer class=entry-footer><span title="2020-09-15 11:30:03 +0000 +0000">September 15, 2020</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Devon-Jon MacKenzie</footer>
 <a class=entry-link aria-label="post link to Rust: Serializing Strings With Serde" href=https://devonjon.co/posts/my-first-post/></a>
 </article>
 </main>

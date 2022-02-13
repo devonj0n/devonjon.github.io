@@ -26,7 +26,9 @@
 <style>#theme-toggle,.top-link{display:none}</style>
 <style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
 </noscript>
-<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-123-45','auto'),ga('send','pageview'))</script><meta property="og:title" content="Rust: Serializing Strings With Serde">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MC18541MZL"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-MC18541MZL',{anonymize_ip:!1})}</script>
+<meta property="og:title" content="Rust: Serializing Strings With Serde">
 <meta property="og:description" content="More specifically: is serializing &str faster than serializing String">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://devonjon.co/posts/my-first-post/">
@@ -38,8 +40,10 @@
 <meta name=twitter:title content="Rust: Serializing Strings With Serde">
 <meta name=twitter:description content="More specifically: is serializing &str faster than serializing String">
 <script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://devonjon.co/posts/"},{"@type":"ListItem","position":2,"name":"Rust: Serializing Strings With Serde","item":"https://devonjon.co/posts/my-first-post/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Rust: Serializing Strings With Serde","name":"Rust: Serializing Strings With Serde","description":"More specifically: is serializing \u0026str faster than serializing String","keywords":["rust","serde"],"articleBody":"","wordCount":"0","inLanguage":"en","image":"https://devonjon.co/sped.png","datePublished":"2020-09-15T11:30:03Z","dateModified":"2020-09-15T11:30:03Z","author":{"@type":"Person","name":"Devon-Jon MacKenzie"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://devonjon.co/posts/my-first-post/"},"publisher":{"@type":"Organization","name":"Devon-Jon etc.","logo":{"@type":"ImageObject","url":"https://devonjon.co/%3Clink%20/%20abs%20url%3E"}}}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Rust: Serializing Strings With Serde","name":"Rust: Serializing Strings With Serde","description":"More specifically: is serializing \u0026str faster than serializing String","keywords":["rust","serde"],"articleBody":"String slices are primitives in rust. However, Strings are put on the heap. At what point do we start benefiting from serializing string slices instead of strings?\nIt makes the code more ugle and there’s more to manage (life times)\nbut if you have a huge Payload, is the trade off worth it?\nprobably not\n#[derive(Serialize, Deserialize, Debug)] struct Informationa { #[serde(borrow)] results: Resa, status: \u0026'a str, } #[derive(Serialize, Deserialize, Debug)] struct Resa { sunrise: \u0026'a str, sunset: \u0026'a str, solar_noon: \u0026'a str, day_length: \u0026'a str, civil_twilight_begin: \u0026'a str, civil_twilight_end: \u0026'a str, nautical_twilight_begin: \u0026'a str, nautical_twilight_end: \u0026'a str, astronomical_twilight_begin: \u0026'a str, astronomical_twilight_end: \u0026'a str, } #[derive(Serialize, Deserialize, Debug)] struct Information2 { results: Res2, status: String, } fn main() { let info = Information { results: Res { sunrise: \"7:07:42 AM\", sunset: \"5:56:02 PM\", solar_noon: \"12:31:52 PM\", day_length: \"10:48:20\", civil_twilight_begin: \"6:42:28 AM\", civil_twilight_end: \"6:21:16 PM\", nautical_twilight_begin: \"6:12:02 AM\", nautical_twilight_end: \"6:51:42 PM\", astronomical_twilight_begin: \"5:41:55 AM\", astronomical_twilight_end: \"7:21:49 PM\", }, status: \"OK\", }; let now = SystemTime::now(); for _ in 1..1000000{ let json_s = serde_json::to_string(\u0026info).unwrap(); let _json_i = serde_json::from_str::Information2(\u0026json_s).unwrap(); } let end = now.elapsed().unwrap().as_millis(); dbg!(end); } ","wordCount":"183","inLanguage":"en","image":"https://devonjon.co/sped.png","datePublished":"2020-09-15T11:30:03Z","dateModified":"2020-09-15T11:30:03Z","author":{"@type":"Person","name":"Devon-Jon MacKenzie"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://devonjon.co/posts/my-first-post/"},"publisher":{"@type":"Organization","name":"Devon-Jon etc.","logo":{"@type":"ImageObject","url":"https://devonjon.co/%3Clink%20/%20abs%20url%3E"}}}</script>
 </head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MC18541MZL"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-MC18541MZL')</script>
 <body id=top>
 <script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
 <header class=header>
@@ -81,12 +85,68 @@ Rust: Serializing Strings With Serde
 <div class=post-description>
 More specifically: is serializing &str faster than serializing String
 </div>
-<div class=post-meta><span title="2020-09-15 11:30:03 +0000 +0000">September 15, 2020</span>&nbsp;·&nbsp;0 min&nbsp;·&nbsp;Devon-Jon MacKenzie&nbsp;|&nbsp;<a href=https://github.com/%3cpath_to_repo%3e/content/posts/my-first-post.md rel="noopener noreferrer" target=_blank>Suggest Changes</a>
+<div class=post-meta><span title="2020-09-15 11:30:03 +0000 +0000">September 15, 2020</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Devon-Jon MacKenzie&nbsp;|&nbsp;<a href=https://github.com/%3cpath_to_repo%3e/content/posts/my-first-post.md rel="noopener noreferrer" target=_blank>Suggest Changes</a>
 </div>
 </header>
 <figure class=entry-cover><img loading=lazy src=https://devonjon.co/sped.png alt>
 <p>sanic & knuckles know about sped</p>
 </figure>
+<div class=post-content><p>String slices are primitives in rust. However, Strings are put on the heap.
+At what point do we start benefiting from serializing string slices instead of strings?</p>
+<p>It makes the code more ugle and there&rsquo;s more to manage (life times)</p>
+<p>but if you have a huge Payload, is the trade off worth it?</p>
+<p>probably not</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Rust data-lang=Rust><span style=color:#75715e>#[derive(Serialize, Deserialize, Debug)]</span>
+<span style=color:#66d9ef>struct</span> <span style=color:#a6e22e>Information</span><span style=color:#f92672>&lt;&#39;</span><span style=color:#a6e22e>a</span><span style=color:#f92672>&gt;</span> {
+    <span style=color:#75715e>#[serde(borrow)]</span>
+    results: <span style=color:#a6e22e>Res</span><span style=color:#f92672>&lt;&#39;</span><span style=color:#a6e22e>a</span><span style=color:#f92672>&gt;</span>,
+    status: <span style=color:#66d9ef>&amp;</span><span style=color:#f92672>&#39;</span><span style=color:#a6e22e>a</span> <span style=color:#66d9ef>str</span>,
+}
+
+<span style=color:#75715e>#[derive(Serialize, Deserialize, Debug)]</span>
+<span style=color:#66d9ef>struct</span> <span style=color:#a6e22e>Res</span><span style=color:#f92672>&lt;&#39;</span><span style=color:#a6e22e>a</span><span style=color:#f92672>&gt;</span> {
+    sunrise: <span style=color:#66d9ef>&amp;</span><span style=color:#f92672>&#39;</span><span style=color:#a6e22e>a</span> <span style=color:#66d9ef>str</span>,
+    sunset: <span style=color:#66d9ef>&amp;</span><span style=color:#f92672>&#39;</span><span style=color:#a6e22e>a</span> <span style=color:#66d9ef>str</span>,
+    solar_noon: <span style=color:#66d9ef>&amp;</span><span style=color:#f92672>&#39;</span><span style=color:#a6e22e>a</span> <span style=color:#66d9ef>str</span>,
+    day_length: <span style=color:#66d9ef>&amp;</span><span style=color:#f92672>&#39;</span><span style=color:#a6e22e>a</span> <span style=color:#66d9ef>str</span>,
+    civil_twilight_begin: <span style=color:#66d9ef>&amp;</span><span style=color:#f92672>&#39;</span><span style=color:#a6e22e>a</span> <span style=color:#66d9ef>str</span>,
+    civil_twilight_end: <span style=color:#66d9ef>&amp;</span><span style=color:#f92672>&#39;</span><span style=color:#a6e22e>a</span> <span style=color:#66d9ef>str</span>,
+    nautical_twilight_begin: <span style=color:#66d9ef>&amp;</span><span style=color:#f92672>&#39;</span><span style=color:#a6e22e>a</span> <span style=color:#66d9ef>str</span>,
+    nautical_twilight_end: <span style=color:#66d9ef>&amp;</span><span style=color:#f92672>&#39;</span><span style=color:#a6e22e>a</span> <span style=color:#66d9ef>str</span>,
+    astronomical_twilight_begin: <span style=color:#66d9ef>&amp;</span><span style=color:#f92672>&#39;</span><span style=color:#a6e22e>a</span> <span style=color:#66d9ef>str</span>,
+    astronomical_twilight_end: <span style=color:#66d9ef>&amp;</span><span style=color:#f92672>&#39;</span><span style=color:#a6e22e>a</span> <span style=color:#66d9ef>str</span>,
+}
+<span style=color:#75715e>#[derive(Serialize, Deserialize, Debug)]</span>
+<span style=color:#66d9ef>struct</span> <span style=color:#a6e22e>Information2</span> {
+    results: <span style=color:#a6e22e>Res2</span>,
+    status: String,
+}
+<span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#66d9ef>let</span> info <span style=color:#f92672>=</span> Information {
+        results: <span style=color:#a6e22e>Res</span> {
+            sunrise: <span style=color:#e6db74>&#34;7:07:42 AM&#34;</span>,
+            sunset: <span style=color:#e6db74>&#34;5:56:02 PM&#34;</span>,
+            solar_noon: <span style=color:#e6db74>&#34;12:31:52 PM&#34;</span>,
+            day_length: <span style=color:#e6db74>&#34;10:48:20&#34;</span>,
+            civil_twilight_begin: <span style=color:#e6db74>&#34;6:42:28 AM&#34;</span>,
+            civil_twilight_end: <span style=color:#e6db74>&#34;6:21:16 PM&#34;</span>,
+            nautical_twilight_begin: <span style=color:#e6db74>&#34;6:12:02 AM&#34;</span>,
+            nautical_twilight_end: <span style=color:#e6db74>&#34;6:51:42 PM&#34;</span>,
+            astronomical_twilight_begin: <span style=color:#e6db74>&#34;5:41:55 AM&#34;</span>,
+            astronomical_twilight_end: <span style=color:#e6db74>&#34;7:21:49 PM&#34;</span>,
+        },
+        status: <span style=color:#e6db74>&#34;OK&#34;</span>,
+    };
+    <span style=color:#66d9ef>let</span> now <span style=color:#f92672>=</span> SystemTime::now();
+    <span style=color:#66d9ef>for</span> _ <span style=color:#66d9ef>in</span> <span style=color:#ae81ff>1</span><span style=color:#f92672>..</span><span style=color:#ae81ff>1000000</span>{
+        <span style=color:#66d9ef>let</span> json_s <span style=color:#f92672>=</span> serde_json::to_string(<span style=color:#f92672>&amp;</span>info).unwrap();
+        <span style=color:#66d9ef>let</span> _json_i <span style=color:#f92672>=</span> serde_json::from_str::<span style=color:#f92672>&lt;</span>Information2<span style=color:#f92672>&gt;</span>(<span style=color:#f92672>&amp;</span>json_s).unwrap();
+    }
+    <span style=color:#66d9ef>let</span> end <span style=color:#f92672>=</span> now.elapsed().unwrap().as_millis();
+    dbg!(end);
+}
+</code></pre></div>
+</div>
 <footer class=post-footer>
 <ul class=post-tags>
 <li><a href=https://devonjon.co/tags/rust/>rust</a></li>
